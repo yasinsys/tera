@@ -22,10 +22,7 @@ This bot allows users to paste a TeraBox file link and get the file uploaded dir
 ## 📥 How To Use
 
 1. Start the bot.
-2. Send a valid TeraBox public share link like:
-
-   ``` https://terabox.app/s/1abcD...XYZ
-   
+2. Send a valid TeraBox public share link 
 3. The bot will:
 
    * (If enabled) Ask for verification
