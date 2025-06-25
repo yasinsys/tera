@@ -62,7 +62,7 @@ Set the following environment variables in your deployment dashboard:
 
 ---
 ## Important
-do not forget to add your own cookies in [this](https://github.com/MNTGXO/MN-TeraBox-Downloader-Bot/blob/main/plugins/tera.py#L26) line
+do not forget to add your own cookies in [this](https://github.com/MN-bots/MN-TeraBox-Downloader-Bot/blob/main/plugins/tera.py#L30) line
 ## 💻 Deployment
 
 You can deploy this bot on platforms like:
