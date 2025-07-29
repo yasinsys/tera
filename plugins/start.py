@@ -1,43 +1,60 @@
-import asyncio
-import cloudscraper
-import re
-from pyrogram.errors import MessageTooLong
+#please give credits https://github.com/MN-BOTS
+#  @MrMNTG @MusammilN
+from pyrogram import Client as MN_Bot
+from pyrogram import filters
+from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
+from verify_patch import IS_VERIFY, validate_token_and_verify, is_verified, build_verification_link, HOW_TO_VERIFY
+from datetime import datetime
 
-# Regex to detect Terabox URL
-TERABOX_REGEX = r"(https?://)?(www\.)?(teraboxapp\.com|terabox\.com)/s/\w+"
-from pyrogram import Client
+#please give credits https://github.com/MN-BOTS
+#  @MrMNTG @MusammilN
+class TEXT:
+    START = """
+<b>I’m a powerful Terabox downloader!</b>
 
-@Client.on_message(filters.text & ~filters.command("start"))
-async def handle_terabox(client: MN_Bot, message: Message):
-    text = message.text.strip()
-    match = re.search(TERABOX_REGEX, text)
+📥 Send me a Terabox link to download.
+⚠️ Only videos under 2GB are supported.
+📢 Don’t forget to join our update channel.
 
-    if not match:
-        await message.reply_text("❌ Please send a valid Terabox link.")
+"""
+    DEVELOPER = "👨‍💻 Developer"
+    UPDATES_CHANNEL = "📢 Updates Channel"
+    SOURCE_CODE = "💬 Support Group"
+
+class INLINE:
+    START_BTN = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton(TEXT.DEVELOPER, url="https://t.me/MrMNTG")],
+            [
+                InlineKeyboardButton(TEXT.UPDATES_CHANNEL, url="https://t.me/MNBots"),
+                InlineKeyboardButton(TEXT.SOURCE_CODE, url="https://t.me/MNBots_support"),
+            ],
+        ]
+    )
+
+#please give credits https://github.com/MN-BOTS
+#  @MrMNTG @MusammilN
+@MN_Bot.on_message(filters.command("start"))
+async def start(client: MN_Bot, message: Message):
+    user_id = message.from_user.id
+    args = message.text.split()
+
+    # Handle verification token in /start parameter
+    if len(args) > 1 and args[1].startswith("verify_"):
+        token = args[1].split("_", 1)[1]
+        if await validate_token_and_verify(user_id, token):
+            await message.reply_text("✅ You are now verified! You can use the bot for 12 hours.")
+        else:
+            await message.reply_text("❌ Invalid or expired verification link.")
         return
 
-    await message.reply_text("🔄 Fetching video info from Terabox...")
+    user = message.from_user
+    mention = user.mention
+    await message.reply_text(
+        TEXT.START,
+        disable_web_page_preview=True,
+        reply_markup=INLINE.START_BTN,
+    )
 
-    try:
-        # You can call terabox-downloader here
-        # This is a dummy placeholder. Replace this with actual function.
-        from terabox_downloader import get_video_link  # adjust this import as per your structure
-
-        url = match.group(0)
-        video_info = await asyncio.to_thread(get_video_link, url)  # Offload to thread if blocking
-
-        title = video_info.get("name", "Unknown Title")
-        size = video_info.get("size", "Unknown Size")
-        link = video_info.get("download_url")
-
-        if not link:
-            await message.reply_text("❌ Failed to extract video link.")
-            return
-
-        caption = f"🎬 <b>{title}</b>\n💾 <i>{size}</i>\n\n🔗 <a href='{link}'>Download Link</a>"
-        await message.reply_text(caption, disable_web_page_preview=True)
-
-    except MessageTooLong:
-        await message.reply_text("✅ Video extracted! But it's too long to display fully.")
-    except Exception as e:
-        await message.reply_text(f"❌ Error: {e}")
+#please give credits https://github.com/MN-BOTS
+#  @MrMNTG @MusammilN
