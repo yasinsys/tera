@@ -1,24 +1,22 @@
-from dotenv import load_dotenv
-load_dotenv()
-
 import os
 
 class BOT:
-    TOKEN = os.environ.get("TOKEN", "")
+    # Make sure this key matches your Render Environment Variables
+    TOKEN = os.environ.get("BOT_TOKEN", "")
 
 class API:
-    HASH = os.environ.get("API_HASH", "")
     ID = int(os.environ.get("API_ID", 0))
+    HASH = os.environ.get("API_HASH", "")
 
 class OWNER:
-    ID = int(os.environ.get("OWNER", 0))
+    ID = int(os.environ.get("ADMIN", 0))  # ADMIN variable in Render
 
 class CHANNEL:
-    ID = int(os.environ.get("CHANNEL_ID", 0))
+    ID = int(os.environ.get("CHANNEL_ID", 0))  # Optional
 
 class WEB:
-    PORT = int(os.environ.get("PORT", 8000))
+    PORT = int(os.environ.get("PORT", 8000))  # Default Flask port
 
 class DATABASE:
-    URI = os.environ.get("DB_URI", "")
+    URI = os.environ.get("DB_URI", "")  # MongoDB URI
     NAME = os.environ.get("DB_NAME", "MN_Bot_DB")
