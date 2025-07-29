@@ -5,8 +5,9 @@ from pyrogram.errors import MessageTooLong
 
 # Regex to detect Terabox URL
 TERABOX_REGEX = r"(https?://)?(www\.)?(teraboxapp\.com|terabox\.com)/s/\w+"
+from pyrogram import Client
 
-@MN_Bot.on_message(filters.text & ~filters.command("start"))
+@Client.on_message(filters.text & ~filters.command("start"))
 async def handle_terabox(client: MN_Bot, message: Message):
     text = message.text.strip()
     match = re.search(TERABOX_REGEX, text)
